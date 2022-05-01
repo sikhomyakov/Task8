@@ -27,5 +27,4 @@ data class Post(
 //    val markedAsAds: Boolean,
     val isFavorite: Boolean,
 //    val postponedId: Int
-) {
-}
+)

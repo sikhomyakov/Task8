@@ -1,7 +1,8 @@
+package ru.netology
+
 import org.junit.Test
-import ru.netology.WallService
 import org.junit.Assert.*
-import ru.netology.Post
+
 
 
 class WallServiceTest {

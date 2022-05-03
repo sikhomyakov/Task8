@@ -17,5 +17,4 @@ fun main() {
     WallService.update(updatedPost)
     println(WallService.update(updatedPost))
 
-//    WallService.printPosts()
 }

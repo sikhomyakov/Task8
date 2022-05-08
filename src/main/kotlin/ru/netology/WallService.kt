@@ -12,41 +12,34 @@ object WallService {
 
     fun update(post: Post): Boolean {
 
-        for (searchPost in posts) {
+        for (i: Int in 0..posts.size) {
+            val searchPost = posts[i]
             if (post.id == searchPost.id) {
-                val updatedPost = Post(searchPost.id,
-                    searchPost.ownerId,
-                    post.fromId,
-                    post.createdBy,
-                    searchPost.date,
-                    post.text,
-                    post.replyOwnerId,
-                    post.replyPostId,
-                    post.friendsOnly,
-                    post.comments,
-                    post.copyright,
-                    post.likes,
-                    post.repost,
-                    post.views,
-                    post.postType,
-                    post.signerId,
-                    post.canPin,
-                    post.canDelete,
-                    post.canEdit,
-                    post.isPinned,
-                    post.markedAsAds,
-                    post.isFavorite,
-                    post.postponedId
+                val updatedPost = post.copy(
+                    id = searchPost.id,
+                    ownerId = searchPost.ownerId,
+                    date = searchPost.date
                 )
-                posts[posts.indexOf(searchPost)] = updatedPost
+
+                posts[i] = updatedPost
+
                 return true
             }
         }
         return false
     }
+
     fun printPosts() {
         for ((index, value) in posts.withIndex()) {
             println("Значение индекса $index содержимое $value")
+            println("\tвложения:")
+            for (att: Attachment in value.attachments) {
+                when (att.type) {
+                    "Photo" -> println("\t\tPhoto")
+                    "Video" -> println("\t\tVideo")
+                    else -> println("\t\tunknown")
+                }
+            }
         }
     }
 }

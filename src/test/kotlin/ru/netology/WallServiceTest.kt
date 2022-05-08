@@ -76,12 +76,12 @@ class WallServiceTest {
 
 
         val update = Post(
-            id = 1,
+            id = 2,
             ownerId = 444,
             fromId = 334,
             createdBy = 555,
             date = 2022_05_08,
-            text = "First post",
+            text = "Edited post",
             likes = 33,
             repost = null,
             views = 99,
@@ -91,7 +91,7 @@ class WallServiceTest {
 
         val result = WallService.update(update)
 
-        assertFalse(!result)
+        assertFalse(result)
 
     }
 }

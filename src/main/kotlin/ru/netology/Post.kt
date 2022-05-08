@@ -1,7 +1,7 @@
 package ru.netology
 
 data class Post(
-    var id: Int = 1,
+    var id: Int = 0,
     val ownerId: Int,
     val fromId: Int,
     val createdBy: Int,
@@ -23,5 +23,5 @@ data class Post(
     val isPinned: Boolean= false,
     val markedAsAds: Boolean = false,
     val isFavorite: Boolean,
-    val postponedId: Int =0
+    val postponedId: Int = 0
 )

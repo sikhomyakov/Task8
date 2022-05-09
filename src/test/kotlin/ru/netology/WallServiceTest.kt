@@ -61,26 +61,4 @@ class WallServiceTest {
         assertEquals(false, result)
     }
 
-    @Test
-    fun createComment() {
-        var post = getTestPost()
-        post = WallService.add(post)
-        WallService.createComment(Comment(
-            1, post.id, 555, 123, "Comment",
-            Donut, false, 0, 0,
-            emptyArray<Attachment>()))
-//        assertTrue(result)
-        assertNotEquals(0, post.id)
-    }
-
-    @Test(expected = PostNotFoundException::class)
-    fun shouldThrow() {
-        val testPost = getTestPost()
-        WallService.add(testPost.copy())
-        WallService.createComment(Comment(
-            1, 444, 555, 123, "Comment",
-            Donut, false, 0, 0,
-            emptyArray<Attachment>()))
-    }
 }
-

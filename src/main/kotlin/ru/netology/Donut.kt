@@ -1,4 +1,4 @@
 package ru.netology
 
-class Donut {
+object Donut {
 }

@@ -2,101 +2,73 @@ package ru.netology
 
 import org.junit.Test
 import org.junit.Assert.*
+import ru.netology.WallService.generateId
 
 class WallServiceTest {
 
+//    private fun getTestAttachments(): Array<Attachment> {
+//        return arrayOf(
+//            LinkAttachment(null),
+//            AudioAttachment(null),
+//            DocAttachment(null),
+//            PhotoAttachment(null),
+//            VideoAttachment(null)
+//        )
+//    }
+
+    private fun getTestPost(): Post {
+        return Post(
+            id = generateId(),
+            ownerId = 0,
+            fromId = 0,
+            createdBy = 0,
+            date = 0,
+            text = "Post text",
+            replyOwnerId = 0,
+            replyPostId = 0,
+            friendsOnly = false,
+            comments = emptyArray<Comment>(),
+            copyright = "Copyright",
+            likes = 0,
+            repost = 0,
+            views = 0,
+            postType = "Post type",
+            attachments = emptyArray<Attachment>(),
+            signerId = 0,
+            copyHistory = "History",
+            canPin = true,
+            canDelete = false,
+            canEdit = true,
+            isPinned = false,
+            markedAsAds = false,
+            isFavorite = false,
+            donut = Donut,
+            postponedId = 0
+        )
+    }
+
     @Test
     fun add() {
-
-        val result = WallService.add(Post(
-            ownerId = 444,
-            fromId = 334,
-            createdBy = 555,
-            date = 2022_05_08,
-            text = "First post",
-            likes = 33,
-            repost = null,
-            views = 99,
-            isFavorite = true,
-            attachments = PhotoAttachment,
-            comments = emptyList()))
-
-        assertTrue(result.id != 0)
+        var post = getTestPost()
+        post = WallService.add(post)
+        assertNotEquals(0, post.id)
     }
 
     @Test
     fun update_True() {
-
-        WallService.add(Post(
-            ownerId = 444,
-            fromId = 334,
-            createdBy = 555,
-            date = 2022_05_08,
-            text = "First post",
-            likes = 33,
-            repost = null,
-            views = 99,
-            isFavorite = true,
-            comments = emptyList(),
-            attachments = emptyList())
-        )
-
-        val update = Post(
-            id = 1,
-            ownerId = 444,
-            fromId = 334,
-            createdBy = 555,
-            date = 2022_05_09,
-            text = "Edited post",
-            likes = 47,
-            repost = null,
-            views = 123,
-            isFavorite = true,
-            comments = emptyList(),
-            attachments = VideoAttachment)
-
-
-        val result = WallService.update(update)
-
-        assertTrue(result)
-
+        val testPost = getTestPost()
+        WallService.add(testPost.copy())
+        val res = WallService.update(testPost.copy(id = 1))
+        assertEquals(true, res)
     }
+
 
     @Test
     fun update_False() {
-
-        WallService.add(Post(
-            ownerId = 444,
-            fromId = 334,
-            createdBy = 555,
-            date = 2022_05_08,
-            text = "First post",
-            likes = 33,
-            repost = null,
-            views = 99,
-            isFavorite = true,
-            comments = emptyList(),
-            attachments = emptyList()))
-
-
-        val update = Post(
-            id = 2,
-            ownerId = 444,
-            fromId = 334,
-            createdBy = 555,
-            date = 2022_05_08,
-            text = "Edited post",
-            likes = 33,
-            repost = null,
-            views = 99,
-            isFavorite = true,
-            comments = emptyList(),
-            attachments = emptyList())
-
-
-        val result = WallService.update(update)
-
-        assertFalse(result)
+        val testPost = getTestPost()
+        WallService.add(testPost.copy())
+        val res = WallService.update(testPost.copy(id = 10))
+        assertEquals(false, res)
+    }
 
     }
-}

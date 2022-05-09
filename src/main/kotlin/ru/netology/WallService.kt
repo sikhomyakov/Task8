@@ -2,44 +2,36 @@ package ru.netology
 
 
 object WallService {
-    private var posts = emptyArray<Post>()
-    private var comments = emptyArray<Comment>()
-    private var lastId = 1
+    private val posts = ArrayList<Post>()
+    private val comments = ArrayList<Comment>()
+
 
     fun add(post: Post): Post {
-        post.id = lastId++
-        posts += post
+        posts.add(post)
         return posts.last()
     }
 
     fun update(post: Post): Boolean {
-
-        for (i: Int in 0..posts.size) {
-            val searchPost = posts[i]
-            if (post.id == searchPost.id) {
-                val updatedPost = post.copy(
-                    id = searchPost.id,
-                    ownerId = searchPost.ownerId,
-                    date = searchPost.date
-                )
-
-                posts[i] = updatedPost
-
-                return true
-            }
+        for ((index, postForEdit) in posts.withIndex()){
+            if (postForEdit.id != post.id) continue
+            posts[index] = post.copy(ownerId = postForEdit.ownerId, date = postForEdit.date)
+            return true
         }
         return false
     }
 
-
-    fun createComment(comment: Comment): Boolean {
+    fun createComment(comment: Comment) {
 
         for (post: Post in posts) {
             if (post.id == comment.postId) {
-                comments += comment
-                return true
-            }
+                comments.add(comment)
+            } else throw PostNotFoundException("Post not found!")
         }
-        return false
+    }
+    fun generateId(): Int {
+        return if (posts.isEmpty()) 1 else posts.last().id + 1
     }
 }
+
+
+

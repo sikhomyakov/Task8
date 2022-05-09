@@ -1,7 +1,7 @@
 package ru.netology
 
-class Comment(
-    internal val id: Int,
+data class Comment(
+    internal val commentId: Int,
     internal val postId: Int,
     internal val fromId: Int,
     internal val date: Int,

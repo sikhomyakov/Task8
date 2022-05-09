@@ -1,7 +1,9 @@
 package ru.netology
 
+
 object WallService {
     private var posts = emptyArray<Post>()
+    private var comments = emptyArray<Comment>()
     private var lastId = 1
 
     fun add(post: Post): Post {
@@ -29,17 +31,15 @@ object WallService {
         return false
     }
 
-    fun printPosts() {
-        for ((index, value) in posts.withIndex()) {
-            println("Значение индекса $index содержимое $value")
-            println("\tвложения:")
-            for (att: Attachment in value.attachments) {
-                when (att.type) {
-                    "Photo" -> println("\t\tPhoto")
-                    "Video" -> println("\t\tVideo")
-                    else -> println("\t\tunknown")
-                }
+
+    fun createComment(comment: Comment): Boolean {
+
+        for (post: Post in posts) {
+            if (post.id == comment.postId) {
+                comments += comment
+                return true
             }
         }
+        return false
     }
 }

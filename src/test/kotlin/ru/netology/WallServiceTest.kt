@@ -18,7 +18,8 @@ class WallServiceTest {
             repost = null,
             views = 99,
             isFavorite = true,
-            attachments = emptyList()))
+            attachments = PhotoAttachment,
+            comments = emptyList()))
 
         assertTrue(result.id != 0)
     }
@@ -36,7 +37,9 @@ class WallServiceTest {
             repost = null,
             views = 99,
             isFavorite = true,
-            attachments = emptyList()))
+            comments = emptyList(),
+            attachments = emptyList())
+        )
 
         val update = Post(
             id = 1,
@@ -49,8 +52,8 @@ class WallServiceTest {
             repost = null,
             views = 123,
             isFavorite = true,
-            attachments =  listOf(Photo(12, 21, 555, 12, "Photo", 2022_05_12),
-                Video(35, 555, "Video file", "Movie", 312, 2022_05_03, 134)))
+            comments = emptyList(),
+            attachments = VideoAttachment)
 
 
         val result = WallService.update(update)
@@ -72,6 +75,7 @@ class WallServiceTest {
             repost = null,
             views = 99,
             isFavorite = true,
+            comments = emptyList(),
             attachments = emptyList()))
 
 
@@ -86,6 +90,7 @@ class WallServiceTest {
             repost = null,
             views = 99,
             isFavorite = true,
+            comments = emptyList(),
             attachments = emptyList())
 
 

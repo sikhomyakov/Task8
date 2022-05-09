@@ -2,19 +2,10 @@ package ru.netology
 
 import org.junit.Test
 import org.junit.Assert.*
+
 import ru.netology.WallService.generateId
 
 class WallServiceTest {
-
-//    private fun getTestAttachments(): Array<Attachment> {
-//        return arrayOf(
-//            LinkAttachment(null),
-//            AudioAttachment(null),
-//            DocAttachment(null),
-//            PhotoAttachment(null),
-//            VideoAttachment(null)
-//        )
-//    }
 
     private fun getTestPost(): Post {
         return Post(
@@ -58,17 +49,38 @@ class WallServiceTest {
     fun update_True() {
         val testPost = getTestPost()
         WallService.add(testPost.copy())
-        val res = WallService.update(testPost.copy(id = 1))
-        assertEquals(true, res)
+        val result = WallService.update(testPost.copy(id = 1))
+        assertEquals(true, result)
     }
-
 
     @Test
     fun update_False() {
         val testPost = getTestPost()
         WallService.add(testPost.copy())
-        val res = WallService.update(testPost.copy(id = 10))
-        assertEquals(false, res)
+        val result = WallService.update(testPost.copy(id = 10))
+        assertEquals(false, result)
     }
 
+    @Test
+    fun createComment() {
+        var post = getTestPost()
+        post = WallService.add(post)
+        WallService.createComment(Comment(
+            1, post.id, 555, 123, "Comment",
+            Donut, false, 0, 0,
+            emptyArray<Attachment>()))
+//        assertTrue(result)
+        assertNotEquals(0, post.id)
     }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrow() {
+        val testPost = getTestPost()
+        WallService.add(testPost.copy())
+        WallService.createComment(Comment(
+            1, 444, 555, 123, "Comment",
+            Donut, false, 0, 0,
+            emptyArray<Attachment>()))
+    }
+}
+

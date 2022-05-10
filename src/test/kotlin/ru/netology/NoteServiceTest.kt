@@ -2,72 +2,138 @@ package ru.netology
 
 import org.junit.Test
 import org.junit.Assert.*
-import exceptions.NoteNotFoundException
-
-private val NoteService = NoteService()
 
 class NoteServiceTest {
 
     @Test
-    fun add() {
-        val note = NoteService.add(0, "Test note", "Lorem ipsum...")
-        assertNotEquals(0, note.id)
-    }
-
-    @Test
     fun createComment() {
-        val note = NoteService.add(0, "Test note", "Lorem ipsum...")
-        NoteService.createComment(note.id, "Comment")
-        assertEquals(NoteService.getComments(note.id).count(), 1)
+        //arrange
+        val note = Note(
+            title = "Some title",
+            text = "Some text"
+        )
+        val comment = Comment(
+            1,
+            "Some comment"
+        )
+        val (noteId) = note
+        //act
+        NoteService.addNote(note)
+        val result = NoteService.createComment(noteId, comment)
+        //assert
+        assertTrue(result)
     }
 
     @Test
     fun deleteComment() {
-        val note = NoteService.add(0, "Test note", "Lorem ipsum...")
-        val comment = NoteService.createComment(note.id, "Test comment")
-
-        NoteService.deleteComment(comment.id)
-        assertTrue(comment.deleted)
-    }
-
-    @Test(expected = NoteNotFoundException::class)
-    fun getById() {
-        NoteService.getById(5)
-    }
-
-    @Test
-    fun delete() {
-        val note = NoteService.add(0, "Test note", "Lorem ipsum...")
-        NoteService.delete(note.id)
-        assertTrue(note.deleted)
-    }
-
-    @Test
-    fun edit() {
-        val note1 = NoteService.add(0, "Test note", "Lorem ipsum...")
-        val note2 = Note(note1.id, 0, "New note", "Text changed")
-        NoteService.edit(note2)
-        assertEquals(note1.text, "Text changed")
-
+        //arrange
+        val note = Note(
+            title = "Some title",
+            text = "Some text"
+        )
+        val comment = Comment(
+            1,
+            "Some comment"
+        )
+        val (noteId) = note
+        val (commentId) = comment
+        //act
+        NoteService.addNote(note)
+        NoteService.createComment(noteId, comment)
+        val result = NoteService.deleteComment(noteId, commentId)
+        //assert
+        assertTrue(result)
     }
 
     @Test
-    fun get() {
-        val note1 = NoteService.add(0, "Test note", "Lorem ipsum...")
-        val note2 = NoteService.add(0, "Test note", "Lorem ipsum...")
-        val note3 = NoteService.add(0, "Test note", "Lorem ipsum...")
-
-        val notes = NoteService.get(listOf<Int>(note1.id, note2.id, note3.id), 0, 0, 2)
-        assertEquals(2, notes.count())
-
+    fun editComment() {
+        //arrange
+        val note = Note(
+            title = "Some title",
+            text = "Some text"
+        )
+        val comment = Comment(
+            1,
+            "Some comment"
+        )
+        val newText = "New text"
+        val (noteId) = note
+        val (commentId) = comment
+        //act
+        NoteService.addNote(note)
+        NoteService.createComment(noteId, comment)
+        val result = NoteService.editComment(noteId, commentId, newText)
+        //assert
+        assertTrue(result)
     }
 
     @Test
-    fun getComments() {
-        val note = NoteService.add(0, "Test note", "Lorem ipsum...")
-        NoteService.createComment(note.id, "Test comment 1")
-        NoteService.createComment(note.id, "Test comment 2")
-        NoteService.createComment(note.id, "Test comment 3")
-        assertEquals(3, NoteService.getComments(note.id).count())
+    fun restoreComment() {
+        //arrange
+        val note = Note(
+            title = "Some title",
+            text = "Some text"
+        )
+        val comment = Comment(
+            1,
+            "Some comment"
+        )
+        val (noteId) = note
+        val (commentId) = comment
+        //act
+        NoteService.addNote(note)
+        NoteService.createComment(noteId, comment)
+        NoteService.deleteComment(noteId, commentId)
+        val result = NoteService.restoreComment(noteId, commentId)
+        //assert
+        assertTrue(result)
+    }
+
+    @Test
+    fun addNote() {
+        //arrange
+        val note = Note(
+            title = "Some Title",
+            text = "Some text"
+        )
+        //act
+        NoteService.addNote(note)
+        val result = NoteService.notesList.isNotEmpty()
+        //assert
+        assertTrue(result)
+    }
+
+    @Test
+    fun deleteNote() {
+        //arrange
+        val note = Note(
+            title = "Some Title",
+            text = "Some text"
+        )
+        val (originalNoteId) = note
+        //act
+        NoteService.addNote(note)
+        val result = NoteService.deleteNote(originalNoteId)
+        //assert
+        assertTrue(result)
+    }
+
+    @Test
+    fun editNote() {
+        //arrange
+        val note = Note(
+            title = "Some Title",
+            text = "Some text"
+        )
+        val (originalNoteId) = note
+        val newNote = Note(
+            title = "New title",
+            text = "new text"
+        )
+        //act
+        NoteService.addNote(note)
+        val result = NoteService.editNote(originalNoteId, newNote)
+        //assert
+        assertTrue(result)
     }
 }

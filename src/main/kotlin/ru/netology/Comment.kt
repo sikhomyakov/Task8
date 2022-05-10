@@ -1,8 +1,7 @@
 package ru.netology
 
-class Comment(
+data class Comment(
     val id: Int,
-    val noteId: Int,
-    var message: String,
-    var deleted: Boolean = false
+    var text: String,
+    var isDelete: Boolean = false
 )
